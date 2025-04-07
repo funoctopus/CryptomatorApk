@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-release
-          path: app-apks/app.apk
+          path: app-apks/playstore/release/presentation-playstore-release.apk
 
       - name: Get next version
         id: get_version
