@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release.apk          
+          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk          
 
       - name: Get next version
         id: get_version
