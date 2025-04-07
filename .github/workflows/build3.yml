@@ -26,40 +26,8 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build with Gradle
-        run: ./gradlew assemblePlaystoreDebug
-
-      - name: List build outputs
-        run: |
-          echo "Listing build outputs directory:"
-          ls -R presentation/build/outputs/apk/
-
-      - name: Upload APK
-        id: upload-apk1
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-playstore-debug
-          path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
-
       - name: Build with Gradle3
-        run: ./gradlew assembleRelease          
-
-      - name: Build with Gradle2
-        run: ./gradlew assemblePlaystoreRelease
-
-      - name: List build outputs2
-        run: |
-          echo "Listing build outputs directory:"
-          ls -R presentation/build/outputs/apk/
-
-      - name: Upload APK
-        id: upload-apk2
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-playstore-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
-
-
+        run: ./gradlew assembleRelease     
 
       - name: List build outputs3
         run: |
@@ -85,7 +53,43 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-app-release-signed.apk          
+          path: presentation/build/outputs/apk/playstore/release/presentation-app-release-signed.apk                  
+
+      - name: Build with Gradle
+        run: ./gradlew assemblePlaystoreDebug
+
+      - name: List build outputs
+        run: |
+          echo "Listing build outputs directory:"
+          ls -R presentation/build/outputs/apk/
+
+      - name: Upload APK
+        id: upload-apk1
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-playstore-debug
+          path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+
+        
+
+      - name: Build with Gradle2
+        run: ./gradlew assemblePlaystoreRelease
+
+      - name: List build outputs2
+        run: |
+          echo "Listing build outputs directory:"
+          ls -R presentation/build/outputs/apk/
+
+      - name: Upload APK
+        id: upload-apk2
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-playstore-release
+          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
+
+
+
+
 
       - name: Get next version
         id: get_version
