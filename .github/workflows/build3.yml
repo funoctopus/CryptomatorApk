@@ -74,7 +74,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
         with:
-          files: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+          files: app-apks/app.apk
           tag_name: v${{ steps.get_version.outputs.next_version }}
           name: Release v${{ steps.get_version.outputs.next_version }}
           body: |
