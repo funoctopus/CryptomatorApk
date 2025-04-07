@@ -32,14 +32,14 @@ jobs:
       - name: List build outputs
         run: |
           echo "Listing build outputs directory:"
-          ls -R presentation/build/outputs/apk/
+          ls -R app-apks/
 
       - name: Upload APK
         id: upload-apk
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-release
-          path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+          path: app-apks/app.apk
 
       - name: Get next version
         id: get_version
