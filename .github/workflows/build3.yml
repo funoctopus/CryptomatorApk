@@ -41,6 +41,9 @@ jobs:
           name: app-playstore-debug
           path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
 
+      - name: Build with Gradle3
+        run: ./gradlew assembleRelease          
+
       - name: Build with Gradle2
         run: ./gradlew assemblePlaystoreRelease
 
@@ -56,8 +59,7 @@ jobs:
           name: app-playstore-release
           path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
 
-      - name: Build with Gradle3
-        run: ./gradlew assembleRelease
+
 
       - name: List build outputs3
         run: |
