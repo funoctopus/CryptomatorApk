@@ -1,0 +1,35 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - develop  # Change this to your default branch if it's not 'main'
+  pull_request:
+    branches:
+      - develop  # Change this to your default branch if it's not 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'  # Change this to the required Java version for your project
+          distribution: 'adopt'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build APK
+        run: ./gradlew assembleRelease  # Change this to the appropriate Gradle task if needed
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: cryptomator-apk
+          path: app-Apk/app-Release.apk  # Adjust the path based on your project structure
