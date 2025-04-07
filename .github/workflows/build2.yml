@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cryptomator-release-apk
-          path: app/build/outputs/apk/release/app-release.apk  # Adjust the path as necessary
+          path: app-apks/app-release.apk  # Adjust the path as necessary
