@@ -16,7 +16,8 @@ jobs:
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -31,197 +32,86 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build with Gradle3
+      - name: Build Release APK
         run: ./gradlew assembleRelease     
-
-      - name: List build outputs3
-        run: |
-          echo "Listing build outputs directory:"
-          ls -R presentation/build/outputs/apk/
-
-      - name: Upload APK
-        id: upload-apk3
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-release.apk
-
-      - name: Upload APK
-        id: upload-apk4
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-release-signed.apk
-
-      - name: Upload APK
-        id: upload-apk5
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-release-unsigned.apk
-
-
-      - name: Upload APK
-        id: upload-apk31
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release.apk
-
-      - name: Upload APK
-        id: upload-apk41
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release-signed.apk
-
-      - name: Upload APK
-        id: upload-apk51
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release-unsigned.apk
-
-
-      - name: Upload APK
-        id: upload-apk32
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release.apk
-
-      - name: Upload APK
-        id: upload-apk42
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release-signed.apk
-
-      - name: Upload APK
-        id: upload-apk52
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release-unsigned.apk
-
-
-      - name: Upload APK
-        id: upload-apk33
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release.apk
-
-      - name: Upload APK
-        id: upload-apk43
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release-signed.apk
-
-      - name: Upload APK
-        id: upload-apk53
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release-unsigned.apk
-
-
-      - name: Upload APK
-        id: upload-apk34
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/lite/release/presentation-lite-release.apk
-
-      - name: Upload APK
-        id: upload-apk44
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/lite/release/presentation-lite-release-signed.apk
-
-      - name: Upload APK
-        id: upload-apk54
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/lite/release/presentation-lite-release-unsigned.apk
-
-
-      - name: Upload APK
-        id: upload-apk35
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release.apk
-
-      - name: Upload APK
-        id: upload-apk45
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-signed.apk
-
-      - name: Upload APK
-        id: upload-apk55
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk          
-
-      - name: Build with Gradle
-        run: ./gradlew assemblePlaystoreDebug
 
       - name: List build outputs
         run: |
           echo "Listing build outputs directory:"
           ls -R presentation/build/outputs/apk/
 
-      - name: Upload APK
-        id: upload-apk1
+      - name: Check for APKs
+        run: |
+          if [ ! -f presentation/build/outputs/apk/playstore/release/presentation-release.apk ]; then
+            echo "Release APK not found!"
+            exit 1
+          fi
+
+      - name: Upload APKs
+        id: upload-apks
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: |
+            presentation/build/outputs/apk/playstore/release/presentation-release.apk
+            presentation/build/outputs/apk/playstore/release/presentation-release-signed.apk
+            presentation/build/outputs/apk/playstore/release/presentation-release-unsigned.apk
+            presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release.apk
+            presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release-signed.apk
+            presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release-unsigned.apk
+            presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release.apk
+            presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release-signed.apk
+            presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release-unsigned.apk
+            presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release.apk
+            presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release-signed.apk
+            presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release-unsigned.apk
+            presentation/build/outputs/apk/lite/release/presentation-lite-release.apk
+            presentation/build/outputs/apk/lite/release/presentation-lite-release-signed.apk
+            presentation/build/outputs/apk/lite/release/presentation-lite-release-unsigned.apk
+            presentation/build/outputs/apk/playstore/release/presentation-playstore-release.apk
+            presentation/build/outputs/apk/playstore/release/presentation-playstore-release-signed.apk
+            presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
+
+      - name: Build Debug APK
+        run: ./gradlew assemblePlaystoreDebug
+
+      - name: List build outputs for Debug
+        run: |
+          echo "Listing build outputs directory:"
+          ls -R presentation/build/outputs/apk/
+
+      - name: Upload Debug APK
+        id: upload-debug-apk
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-debug
           path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
 
-        
-
-      - name: Build with Gradle2
+      - name: Build Release APK for Playstore
         run: ./gradlew assemblePlaystoreRelease
 
-      - name: List build outputs2
+      - name: List build outputs for Playstore Release
         run: |
           echo "Listing build outputs directory:"
           ls -R presentation/build/outputs/apk/
 
-      - name: Upload APK
-        id: upload-apk2
+      - name: Upload Playstore Release APK
+        id: upload-playstore-release
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-release
           path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
 
-
-
-
-
       - name: Get next version
         id: get_version
         run: |
-          # Get all tags and sort them
           tags=$(git tag -l 'v*' | sort -V)
           if [ -z "$tags" ]; then
-            # If no tags exist, start with 1.0.0
             echo "next_version=1.0.0" >> $GITHUB_OUTPUT
           else
-            # Get the latest tag
             latest_tag=$(echo "$tags" | tail -n 1)
-            # Remove 'v' prefix
             version=${latest_tag#v}
-            # Split version into components
             IFS='.' read -r major minor patch <<< "$version"
-            # Increment patch version
             new_patch=$((patch + 1))
             new_version="${major}.${minor}.${new_patch}"
             echo "next_version=${new_version}" >> $GITHUB_OUTPUT
@@ -239,7 +129,24 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
         with:
-          files: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+          files: |
+            presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+            presentation/build/outputs/apk/lite/debug/presentation-lite-debug.apk
+            presentation/build/outputs/apk/lite/release/presentation-lite-release.apk
+            presentation/build/outputs/apk/lite/release/presentation-lite-release-signed.apk
+            presentation/build/outputs/apk/lite/release/presentation-lite-release-unsigned.apk
+            presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release.apk
+            presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release-signed.apk
+            presentation/build/outputs/apk/fdroid/release/presentation-fdroid-release-unsigned.apk
+            presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release.apk
+            presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release-signed.apk
+            presentation/build/outputs/apk/apkstore/release/presentation-apkstore-release-unsigned.apk
+            presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release.apk
+            presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release-signed.apk
+            presentation/build/outputs/apk/accrescent/release/presentation-accrescent-release-unsigned.apk
+            presentation/build/outputs/apk/playstore/release/presentation-playstore-release.apk
+            presentation/build/outputs/apk/playstore/release/presentation-playstore-release-signed.apk
+            presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
           tag_name: v${{ steps.get_version.outputs.next_version }}
           name: Release v${{ steps.get_version.outputs.next_version }}
           body: |
@@ -247,3 +154,4 @@ jobs:
             Commit: ${{ github.sha }}
             Author: ${{ github.actor }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
