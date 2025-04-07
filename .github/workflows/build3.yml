@@ -27,19 +27,34 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Build with Gradle
-        run: ./gradlew assemblePlaystoreRelease
+        run: ./gradlew assemblePlaystoreDebug
 
       - name: List build outputs
         run: |
           echo "Listing build outputs directory:"
-          ls -R app-apks/
+          ls -R presentation/build/outputs/apk/
 
       - name: Upload APK
-        id: upload-apk
+        id: upload-apk1
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-playstore-debug
+          path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+
+      - name: Build with Gradle2
+        run: ./gradlew assemblePlaystoreRelease
+
+      - name: List build outputs2
+        run: |
+          echo "Listing build outputs directory:"
+          ls -R presentation/build/outputs/apk/
+
+      - name: Upload APK
+        id: upload-apk2
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-release
-          path: app-apks/playstore/release/presentation-playstore-release.apk
+          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release.apk          
 
       - name: Get next version
         id: get_version
@@ -74,7 +89,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
         with:
-          files: app-apks/app.apk
+          files: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
           tag_name: v${{ steps.get_version.outputs.next_version }}
           name: Release v${{ steps.get_version.outputs.next_version }}
           body: |
