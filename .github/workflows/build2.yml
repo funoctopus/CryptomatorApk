@@ -3,7 +3,7 @@ name: Build Cryptomator Release APK
 on:
   push:
     branches:
-      - develop  # Change this to your default branch if necessary
+      - develop  # Change this to your default branch if necessary here
   pull_request:
     branches:
       - develop
