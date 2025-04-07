@@ -18,6 +18,13 @@ android {
 			storeFile file('debug.keystore')
 			storePassword 'android'
 		}
+		release {
+		    	// storeFile file(System.getenv("KEYSTORE_FILE"))
+		    	storeFile file('my-release-key.keystore')
+			storePassword System.getenv("KEYSTORE_PASSWORD")
+		    	keyAlias System.getenv("KEY_ALIAS")
+		    	keyPassword System.getenv("KEY_PASSWORD")
+	        }
 	}
 
 	def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -52,7 +59,7 @@ android {
 			'appAuthRedirectScheme': 'org.cryptomator.android'
 	]
 
-	buildTypes {
+	buildTypes {		
 		release {
 			crunchPngs false
 			minifyEnabled false
