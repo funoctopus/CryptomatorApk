@@ -54,7 +54,36 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-playstore-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk          
+          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
+
+      - name: Build with Gradle3
+        run: ./gradlew assembleRelease
+
+      - name: List build outputs3
+        run: |
+          echo "Listing build outputs directory:"
+          ls -R presentation/build/outputs/apk/
+
+      - name: Upload APK
+        id: upload-apk3
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: presentation/build/outputs/apk/playstore/release/presentation-release.apk
+
+      - name: Upload APK
+        id: upload-apk4
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: presentation/build/outputs/apk/playstore/release/presentation-release-signed.apk
+
+      - name: Upload APK
+        id: upload-apk5
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: presentation/build/outputs/apk/playstore/release/presentation-app-release-signed.apk          
 
       - name: Get next version
         id: get_version
