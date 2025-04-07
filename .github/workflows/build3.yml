@@ -29,7 +29,7 @@ jobs:
         run: ./gradlew assembleRelease  # Change this to the appropriate Gradle task if needed
 
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: cryptomator-apk
           path: app-Apk/app-Release.apk  # Adjust the path based on your project structure
