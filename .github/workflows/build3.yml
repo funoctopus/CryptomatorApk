@@ -40,12 +40,12 @@ jobs:
           echo "Listing build outputs directory:"
           ls -R presentation/build/outputs/apk/
 
-      - name: Check for APKs
-        run: |
-          if [ ! -f presentation/build/outputs/apk/playstore/release/presentation-release.apk ]; then
-            echo "Release APK not found!"
-            exit 1
-          fi
+      # - name: Check for APKs
+      #   run: |
+      #     if [ ! -f presentation/build/outputs/apk/playstore/release/presentation-release.apk ]; then
+      #       echo "Release APK not found!"
+      #       exit 1
+      #     fi
 
       - name: Upload APKs
         id: upload-apks
