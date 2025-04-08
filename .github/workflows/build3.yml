@@ -73,7 +73,7 @@ jobs:
             presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
 
       - name: Build Debug APK
-        run: ./gradlew assemblePlaystoreDebug
+        run: ./gradlew assembleDebug
 
       - name: List build outputs for Debug
         run: |
@@ -84,23 +84,29 @@ jobs:
         id: upload-debug-apk
         uses: actions/upload-artifact@v4
         with:
-          name: app-playstore-debug
-          path: presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+          name: app-debug
+          path: |
+            presentation/build/outputs/apk/playstore/debug/presentation-debug.apk
+            presentation/build/outputs/apk/accrescent/debug/presentation-accrescent-debug.apk
+            presentation/build/outputs/apk/apkstore/debug/presentation-apkstore-debug.apk
+            presentation/build/outputs/apk/fdroid/debug/presentation-fdroid-debug.apk
+            presentation/build/outputs/apk/lite/debug/presentation-lite-debug.apk
+            presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
 
-      - name: Build Release APK for Playstore
-        run: ./gradlew assemblePlaystoreRelease
+      # - name: Build Release APK for Playstore
+      #   run: ./gradlew assemblePlaystoreRelease
 
-      - name: List build outputs for Playstore Release
-        run: |
-          echo "Listing build outputs directory:"
-          ls -R presentation/build/outputs/apk/
+      # - name: List build outputs for Playstore Release
+      #   run: |
+      #     echo "Listing build outputs directory:"
+      #     ls -R presentation/build/outputs/apk/
 
-      - name: Upload Playstore Release APK
-        id: upload-playstore-release
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-playstore-release
-          path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
+      # - name: Upload Playstore Release APK
+      #   id: upload-playstore-release
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: app-playstore-release
+      #     path: presentation/build/outputs/apk/playstore/release/presentation-playstore-release-unsigned.apk
 
       - name: Get next version
         id: get_version
@@ -130,8 +136,12 @@ jobs:
         if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
         with:
           files: |
-            presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk
+            presentation/build/outputs/apk/playstore/debug/presentation-debug.apk
+            presentation/build/outputs/apk/accrescent/debug/presentation-accrescent-debug.apk
+            presentation/build/outputs/apk/apkstore/debug/presentation-apkstore-debug.apk
+            presentation/build/outputs/apk/fdroid/debug/presentation-fdroid-debug.apk
             presentation/build/outputs/apk/lite/debug/presentation-lite-debug.apk
+            presentation/build/outputs/apk/playstore/debug/presentation-playstore-debug.apk            
             presentation/build/outputs/apk/lite/release/presentation-lite-release.apk
             presentation/build/outputs/apk/lite/release/presentation-lite-release-signed.apk
             presentation/build/outputs/apk/lite/release/presentation-lite-release-unsigned.apk
