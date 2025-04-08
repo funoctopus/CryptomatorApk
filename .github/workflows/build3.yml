@@ -32,8 +32,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Clean
+        run: ./gradlew clean
+
       - name: Build Release APK
-        run: ./gradlew assembleRelease     
+        run: ./gradlew assembleRelease --warning-mode all    
 
       - name: List build outputs
         run: |
