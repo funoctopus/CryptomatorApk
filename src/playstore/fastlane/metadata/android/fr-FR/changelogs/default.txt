@@ -1,1 +1,1 @@
-- Update to latest Android version
+- Fixed possible man-in-the-middle attack with tampered Cryptomator Hub vault config (GHSA-876q-q3mm-fcvj)
