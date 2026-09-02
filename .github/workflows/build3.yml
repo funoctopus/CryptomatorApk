@@ -10,11 +10,6 @@ on:
 permissions:
   contents: write
 
-# Prevent two runs on the same branch from racing for the same auto-tag
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,18 +40,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Restore release keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\n' | base64 -d > presentation/my-release-key.keystore
-
-      - name: Verify keystore credentials
-        run: |
-          if keytool -list -keystore presentation/my-release-key.keystore \
-               -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
-               -alias "${{ secrets.KEY_ALIAS }}" > /dev/null 2>&1; then
-            echo "✓ Keystore and alias verified"
-          else
-            echo "::error::Keystore verification failed — check KEYSTORE_BASE64 / KEYSTORE_PASSWORD / KEY_ALIAS secrets"
-            exit 1
-          fi
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > presentation/my-release-key.keystore
 
       - name: Build release variants
         run: ./gradlew assembleRelease --warning-mode all
@@ -93,7 +77,7 @@ jobs:
           fi
 
       - name: Create and push tag
-        if: github.ref == 'refs/heads/dev-d1' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        if: github.ref == 'refs/heads/dev-d1' && github.event_name == 'push'
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
@@ -102,7 +86,7 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
-        if: github.ref == 'refs/heads/dev-d1' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        if: github.ref == 'refs/heads/dev-d1' && github.event_name == 'push'
         with:
           files: |
             presentation/build/outputs/apk/*/release/*.apk
