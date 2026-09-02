@@ -12,12 +12,18 @@ if (!liteFlavor()) {
 
 android {
 	signingConfigs {
-		debug {
-			keyAlias 'androiddebugkey'
-			keyPassword 'android'
-			storeFile file('debug.keystore')
-			storePassword 'android'
-		}
+	    debug {
+	        keyAlias 'androiddebugkey'
+	        keyPassword 'android'
+	        storeFile file('debug.keystore')
+	        storePassword 'android'
+	    }
+	    release {
+	        storeFile file('my-release-key.keystore')
+	        storePassword System.getenv("KEYSTORE_PASSWORD")
+	        keyAlias System.getenv("KEY_ALIAS")
+	        keyPassword System.getenv("KEY_PASSWORD")
+	    }
 	}
 
 	def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -56,6 +62,7 @@ android {
 
 	buildTypes {
 		release {
+			signingConfig signingConfigs.release
 			crunchPngs false
 			minifyEnabled false
 			shrinkResources false
